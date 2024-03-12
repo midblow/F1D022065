@@ -1,10 +1,14 @@
 from mpi4py import MPI
-from math import ceil
+import os
 
 comm = MPI.COMM_WORLD
-proses_rank = comm.Get_rank()
+home_dir = os.path.expanduser('~')
 
-if proses_rank % 2 == 0:
-    print("Anda proses Genap")
+# Mengatur bilangan ganjil atau genap yang akan diproses oleh setiap proses
+if comm.rank % 2 == 0:
+    status = "Genap"
 else:
-    print("Anda proses Ganjil")
+    status = "Ganjil"
+
+# Mencetak pesan sesuai dengan status bilangan
+print(f"{comm.rank} --> Anda proses {status}: (%s)" % home_dir)
